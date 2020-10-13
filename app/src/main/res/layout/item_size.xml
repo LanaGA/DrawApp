@@ -10,7 +10,7 @@
         android:id="@+id/ivTools"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:src="@drawable/ic_baseline_brightness_1_24" />
+        android:src="@drawable/ic_baseline_format_size_24" />
 
     <TextView
         android:id="@+id/tvToolsSize"
