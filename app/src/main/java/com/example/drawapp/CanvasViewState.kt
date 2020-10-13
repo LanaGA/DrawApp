@@ -1,9 +1,10 @@
 package com.example.drawapp
 
+import android.graphics.Paint
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 
-data class CanvasViewState(val color: COLOR, val size: SIZE)
+data class CanvasViewState(val color: COLOR, val size: SIZE, val style: STYLE)
 
 enum class COLOR(
     @ColorRes
@@ -37,9 +38,18 @@ enum class TOOLS(
     @DrawableRes
     val value: Int
 ) {
-    NORMAL(R.drawable.ic_baseline_brush_24),
     STROKE(R.drawable.ic_baseline_brush_24),
-    SIZE(R.drawable.ic_baseline_brush_24),
-    PALETTE(R.drawable.ic_baseline_brightness_1_24)
+    SIZE(R.drawable.ic_baseline_format_size_24),
+    PALETTE(R.drawable.ic_baseline_palette_24)
 }
 
+enum class STYLE(val value: Int){
+    FILL(0),
+    STROKE(1),
+    FILL_AND_STROKE(2);
+
+    companion object {
+        private val map = values().associateBy(STYLE::value)
+        fun from(style: Int) = map[style] ?: STROKE
+    }
+}

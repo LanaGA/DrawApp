@@ -65,6 +65,17 @@
         tools:visibility="visible" />
 
     <include
+        android:id="@+id/style"
+        layout="@layout/view_tools"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/tools"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible" />
+
+    <include
         android:id="@+id/tools"
         layout="@layout/view_tools"
         android:layout_width="0dp"

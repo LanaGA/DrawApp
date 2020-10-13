@@ -9,10 +9,12 @@ class ViewModel : BaseViewModel<ViewState>() {
         toolsList = enumValues<TOOLS>().map { ToolItem.ToolModel(it.value) },
         colorList = enumValues<COLOR>().map { ToolItem.ColorModel(it.value) },
         sizeList = enumValues<SIZE>().map { ToolItem.SizeModel(it.value) },
-        canvasViewState = CanvasViewState(COLOR.BLACK, SIZE.SMALL),
+        styleList = enumValues<STYLE>().map { ToolItem.StyleModel(it.value) },
+        canvasViewState = CanvasViewState(COLOR.BLACK, SIZE.SMALL, STYLE.FILL),
         isPaletteVisible = false,
         isBrushSizeChangerVisible = false,
-        isToolsVisible = false
+        isToolsVisible = false,
+        isStyleVisible = false
     )
 
     override fun reduce(event: Event, previousState: ViewState): ViewState? {
@@ -31,16 +33,32 @@ class ViewModel : BaseViewModel<ViewState>() {
                     )
                 )
             }
+            is UiEvent.OnStyleClick -> {
+                return previousState.copy(
+                    canvasViewState = previousState.canvasViewState.copy(
+                        style = STYLE.from(previousState.styleList[event.index].type)
+                    )
+                )
+            }
             is UiEvent.OnToolsClick -> {
                 return when (event.index) {
-                    2 -> {
+                    0 -> {
                         previousState.copy(
+                            isStyleVisible = true,
+                            isPaletteVisible = false,
+                            isBrushSizeChangerVisible = false
+                        )
+                    }
+                    1 -> {
+                        previousState.copy(
+                            isStyleVisible = false,
                             isPaletteVisible = false,
                             isBrushSizeChangerVisible = true
                         )
                     }
-                    3 -> {
+                    2 -> {
                         previousState.copy(
+                            isStyleVisible = false,
                             isPaletteVisible = true,
                             isBrushSizeChangerVisible = false
                         )
@@ -53,6 +71,14 @@ class ViewModel : BaseViewModel<ViewState>() {
             is UiEvent.OnToolbarClicked -> {
                 return previousState.copy(
                     isToolsVisible = !previousState.isToolsVisible
+                )
+            }
+            is UiEvent.OnDrawClick -> {
+                return previousState.copy(
+                    isStyleVisible = false,
+                    isPaletteVisible = false,
+                    isBrushSizeChangerVisible = false,
+                    isToolsVisible = false
                 )
             }
         }

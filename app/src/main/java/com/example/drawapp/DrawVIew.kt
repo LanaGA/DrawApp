@@ -7,6 +7,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
 import androidx.core.content.res.ResourcesCompat
+import java.lang.Exception
 import kotlin.math.abs
 
 class DrawView @JvmOverloads constructor(
@@ -49,8 +50,18 @@ class DrawView @JvmOverloads constructor(
 
     fun render(state: CanvasViewState) {
         drawColor = ResourcesCompat.getColor(resources, state.color.value, null)
+        paint.style = matchStyle(state.style.value)
         paint.color = drawColor
         paint.strokeWidth = state.size.value.toFloat()
+    }
+
+    private fun matchStyle(value: Int): Paint.Style{
+        return when(value){
+            0 -> Paint.Style.FILL
+            1 -> Paint.Style.STROKE
+            2 -> Paint.Style.FILL_AND_STROKE
+            else -> throw Exception()
+        }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {

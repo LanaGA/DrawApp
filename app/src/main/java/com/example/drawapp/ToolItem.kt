@@ -8,4 +8,5 @@ sealed class ToolItem : Item {
     data class ColorModel(@ColorRes val color: Int) : ToolItem()
     data class SizeModel(val size: Int): ToolItem()
     data class ToolModel(@DrawableRes val icon: Int): ToolItem()
+    data class StyleModel(val type: Int): ToolItem()
 }

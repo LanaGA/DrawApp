@@ -6,6 +6,7 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
+import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.view_tools.view.*
 
 class ToolsLayout @JvmOverloads constructor(
@@ -24,6 +25,9 @@ class ToolsLayout @JvmOverloads constructor(
             onClick(it)
         },
         toolsAdapterDelegate {
+            onClick(it)
+        },
+        styleAdapterDelegate{
             onClick(it)
         }
     )
