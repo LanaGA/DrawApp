@@ -14,11 +14,11 @@ data class ViewState(
     val isStyleVisible: Boolean
 )
 
-sealed class UiEvent() : Event{
+sealed class UiEvent() : Event {
     data class OnColorClick(val index: Int) : UiEvent()
     data class OnSizeClick(val index: Int) : UiEvent()
     data class OnStyleClick(val index: Int) : UiEvent()
     data class OnToolsClick(val index: Int) : UiEvent()
-    object OnToolbarClicked: UiEvent()
-    object OnDrawClick: UiEvent()
+    object OnToolbarClicked : UiEvent()
+    object OnDrawClick : UiEvent()
 }

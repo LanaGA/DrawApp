@@ -1,7 +1,8 @@
 package com.example.drawapp
 
+import android.content.*
 import android.os.Bundle
-import android.view.View
+import android.os.IBinder
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.example.drawapp.base.showIf
@@ -11,8 +12,18 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class MainActivity : AppCompatActivity() {
 
     private val viewModel: ViewModel by viewModel()
-
     private lateinit var toolsLayouts: List<ToolsLayout>
+    private lateinit var saveService: SaveService
+    private val connection = object : ServiceConnection {
+        override fun onServiceDisconnected(name: ComponentName?) {
+
+        }
+
+        override fun onServiceConnected(name: ComponentName?, bunder: IBinder?) {
+            saveService = (bunder as SaveService.MyServiceBinder).getService()
+        }
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,8 +54,24 @@ class MainActivity : AppCompatActivity() {
         drawView.setOnClickListener {
             viewModel.processUiEvent(UiEvent.OnDrawClick)
         }
+
+        Intent(this, SaveService::class.java).also { intent ->
+            bindService(intent, connection, Context.BIND_AUTO_CREATE)
+        }
+
+        saveImage.setOnClickListener {
+
+            saveImage()
+
+        }
     }
 
+
+    override fun onStop() {
+        super.onStop()
+        unbindService(connection)
+    }
+    private fun saveImage() = saveService.saveBitmap(drawView.getBitmap())
 
     private fun render(viewState: ViewState) {
         toolsLayouts[0].showIf(viewState.isPaletteVisible)

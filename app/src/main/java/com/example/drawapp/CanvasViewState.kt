@@ -40,7 +40,12 @@ enum class TOOLS(
 ) {
     STROKE(R.drawable.ic_baseline_brush_24),
     SIZE(R.drawable.ic_baseline_format_size_24),
-    PALETTE(R.drawable.ic_baseline_palette_24)
+    PALETTE(R.drawable.ic_baseline_palette_24);
+
+    companion object {
+        private val map = values().associateBy(TOOLS::value)
+        fun from(tool: Int) = map[tool] ?: PALETTE
+    }
 }
 
 enum class STYLE(val value: Int){

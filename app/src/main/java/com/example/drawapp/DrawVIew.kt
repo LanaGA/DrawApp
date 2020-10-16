@@ -1,14 +1,19 @@
 package com.example.drawapp
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.Path
+import android.os.Environment
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
 import androidx.core.content.res.ResourcesCompat
-import java.lang.Exception
+
 import kotlin.math.abs
+
 
 class DrawView @JvmOverloads constructor(
     context: Context,
@@ -17,8 +22,10 @@ class DrawView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
     companion object {
         private const val STROKE_WIDTH = 12f
+
     }
 
+    private var clickListener: OnClickListener? = null
     private lateinit var extraCanvas: Canvas
     private lateinit var extraBitmap: Bitmap
 
@@ -55,8 +62,15 @@ class DrawView @JvmOverloads constructor(
         paint.strokeWidth = state.size.value.toFloat()
     }
 
-    private fun matchStyle(value: Int): Paint.Style{
-        return when(value){
+    fun getBitmap():Bitmap {
+        val bitmap = Bitmap.createBitmap(this.width, this.height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        this.draw(canvas)
+        return bitmap
+    }
+
+    private fun matchStyle(value: Int): Paint.Style {
+        return when (value) {
             0 -> Paint.Style.FILL
             1 -> Paint.Style.STROKE
             2 -> Paint.Style.FILL_AND_STROKE
@@ -65,11 +79,15 @@ class DrawView @JvmOverloads constructor(
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
+        super.onTouchEvent(event)
         motionTouchEventX = event.x
         motionTouchEventY = event.y
 
         when (event.action) {
-            MotionEvent.ACTION_DOWN -> touchStart()
+            MotionEvent.ACTION_DOWN -> {
+                touchStart()
+                clickListener?.onClick(this)
+            }
             MotionEvent.ACTION_MOVE -> touchMove()
             MotionEvent.ACTION_UP -> touchUp()
         }
@@ -120,5 +138,9 @@ class DrawView @JvmOverloads constructor(
         canvas.drawBitmap(extraBitmap, 0f, 0f, null)
         canvas.drawPath(drawing, paint)
         canvas.drawPath(curPath, paint)
+    }
+
+    override fun setOnClickListener(l: OnClickListener?) {
+        clickListener = l
     }
 }
