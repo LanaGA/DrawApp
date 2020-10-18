@@ -1,10 +1,7 @@
 package com.example.drawapp
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.Path
+import android.graphics.*
 import android.os.Environment
 import android.util.AttributeSet
 import android.view.MotionEvent
@@ -67,6 +64,10 @@ class DrawView @JvmOverloads constructor(
         val canvas = Canvas(bitmap)
         this.draw(canvas)
         return bitmap
+    }
+
+    fun clear(){
+        extraCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
     }
 
     private fun matchStyle(value: Int): Paint.Style {

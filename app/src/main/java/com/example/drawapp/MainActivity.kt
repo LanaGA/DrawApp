@@ -59,10 +59,12 @@ class MainActivity : AppCompatActivity() {
             bindService(intent, connection, Context.BIND_AUTO_CREATE)
         }
 
+        clearImage.setOnClickListener {
+            drawView.clear()
+        }
+
         saveImage.setOnClickListener {
-
             saveImage()
-
         }
     }
 
