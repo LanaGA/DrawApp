@@ -3,8 +3,11 @@ package com.example.drawapp
 import android.content.*
 import android.os.Bundle
 import android.os.IBinder
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import com.example.drawapp.base.checkPermissionForWriteToStorage
+import com.example.drawapp.base.requestPermissionForWriteToStorage
 import com.example.drawapp.base.showIf
 import com.example.drawapp.savecomponent.SaveService
 import kotlinx.android.synthetic.main.activity_main.*
@@ -68,15 +71,34 @@ class MainActivity : AppCompatActivity() {
         }
 
         saveImage.setOnClickListener {
-            saveImage()
+            if (checkPermissionForWriteToStorage()) {
+                saveImage()
+            } else {
+                requestPermissionForWriteToStorage()
+            }
         }
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (checkPermissionForWriteToStorage()) {
+            saveImage()
+        }
+        else
+        {
+            Toast.makeText(this, "Операция невозможна из-за отсутствия разрешения", Toast.LENGTH_LONG).show()
+        }
+    }
 
     override fun onStop() {
         super.onStop()
         unbindService(connection)
     }
+
     private fun saveImage() = saveService.saveBitmap(drawView.getBitmap())
 
     private fun render(viewState: ViewState) {
