@@ -1,6 +1,5 @@
 package com.example.drawapp
 
-import android.graphics.Paint
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 
@@ -34,13 +33,20 @@ enum class SIZE(
     }
 }
 
+enum class Tool {
+    STYLE,
+    COLOR,
+    SIZE
+}
+
 enum class TOOLS(
     @DrawableRes
-    val value: Int
+    val value: Int,
+    val tool: Tool
 ) {
-    STROKE(R.drawable.ic_baseline_brush_24),
-    SIZE(R.drawable.ic_baseline_format_size_24),
-    PALETTE(R.drawable.ic_baseline_palette_24);
+    STYLE(R.drawable.ic_baseline_brush_24, Tool.STYLE),
+    SIZE(R.drawable.ic_baseline_format_size_24, Tool.SIZE),
+    PALETTE(R.drawable.ic_baseline_palette_24, Tool.COLOR);
 
     companion object {
         private val map = values().associateBy(TOOLS::value)

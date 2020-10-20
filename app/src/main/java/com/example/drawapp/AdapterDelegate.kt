@@ -38,14 +38,18 @@ fun sizeChangeAdapterDelegate(
 }
 
 fun toolsAdapterDelegate(
-    onToolsClick: (Int) -> Unit
+    onToolsClick: (ToolItem) -> Unit
 ): AdapterDelegate<List<Item>> = adapterDelegateLayoutContainer<ToolItem.ToolModel, Item>(
     R.layout.item_tools
 ) {
     bind {
         itemView.ivTool.setImageResource(item.icon)
+        itemView.ivTool.setColorFilter(
+            context.resources.getColor(item.currentColor),
+            PorterDuff.Mode.SRC_IN
+        )
         itemView.setOnClickListener {
-            onToolsClick(adapterPosition)
+            onToolsClick(item)
         }
     }
 }

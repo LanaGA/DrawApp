@@ -13,6 +13,7 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModel: ViewModel by viewModel()
     private lateinit var toolsLayouts: List<ToolsLayout>
+    private lateinit var tools: ToolsToolbarLayout
     private lateinit var saveService: SaveService
     private val connection = object : ServiceConnection {
         override fun onServiceDisconnected(name: ComponentName?) {
@@ -31,7 +32,6 @@ class MainActivity : AppCompatActivity() {
         toolsLayouts = listOf(
             palette as ToolsLayout,
             size as ToolsLayout,
-            tools as ToolsLayout,
             style as ToolsLayout
         )
         toolsLayouts[0].setOnClickListener {
@@ -41,11 +41,14 @@ class MainActivity : AppCompatActivity() {
             viewModel.processUiEvent(UiEvent.OnSizeClick(it))
         }
         toolsLayouts[2].setOnClickListener {
-            viewModel.processUiEvent(UiEvent.OnToolsClick(it))
-        }
-        toolsLayouts[3].setOnClickListener {
             viewModel.processUiEvent(UiEvent.OnStyleClick(it))
         }
+
+        tools = toolsToolbar as ToolsToolbarLayout
+        tools.setOnClickListener {
+            viewModel.processUiEvent(UiEvent.OnToolsClick(it))
+        }
+
 
         viewModel.viewState.observe(this, Observer(::render))
         openPalette.setOnClickListener {
@@ -82,11 +85,12 @@ class MainActivity : AppCompatActivity() {
         toolsLayouts[1].showIf(viewState.isBrushSizeChangerVisible)
         toolsLayouts[1].render(viewState.sizeList)
 
-        toolsLayouts[2].showIf(viewState.isToolsVisible)
-        toolsLayouts[2].render(viewState.toolsList)
+        toolsLayouts[2].showIf(viewState.isStyleVisible)
+        toolsLayouts[2].render(viewState.styleList)
 
-        toolsLayouts[3].showIf(viewState.isStyleVisible)
-        toolsLayouts[3].render(viewState.styleList)
+        tools.showIf(viewState.isToolsVisible)
+        tools.render(viewState.toolsList)
+
 
         drawView.render(viewState.canvasViewState)
     }

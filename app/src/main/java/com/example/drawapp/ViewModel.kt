@@ -6,7 +6,11 @@ import com.example.drawapp.base.Event
 class ViewModel : BaseViewModel<ViewState>() {
 
     override fun initialViewState(): ViewState = ViewState(
-        toolsList = enumValues<TOOLS>().map { ToolItem.ToolModel(it.value) },
+        toolsList = enumValues<TOOLS>().map { ToolItem.ToolModel(
+            it.value,
+            it.tool,
+            COLOR.BLACK.value
+        ) },
         colorList = enumValues<COLOR>().map { ToolItem.ColorModel(it.value) },
         sizeList = enumValues<SIZE>().map { ToolItem.SizeModel(it.value) },
         styleList = enumValues<STYLE>().map { ToolItem.StyleModel(it.value) },
@@ -41,30 +45,27 @@ class ViewModel : BaseViewModel<ViewState>() {
                 )
             }
             is UiEvent.OnToolsClick -> {
-                return when (event.index) {
-                    0 -> {
+                return when ((event.tool as ToolItem.ToolModel).type) {
+                    Tool.STYLE -> {
                         previousState.copy(
                             isStyleVisible = true,
                             isPaletteVisible = false,
                             isBrushSizeChangerVisible = false
                         )
                     }
-                    1 -> {
+                    Tool.SIZE -> {
                         previousState.copy(
                             isStyleVisible = false,
                             isPaletteVisible = false,
                             isBrushSizeChangerVisible = true
                         )
                     }
-                    2 -> {
+                    Tool.COLOR -> {
                         previousState.copy(
                             isStyleVisible = false,
                             isPaletteVisible = true,
                             isBrushSizeChangerVisible = false
                         )
-                    }
-                    else -> {
-                        return null
                     }
                 }
             }
