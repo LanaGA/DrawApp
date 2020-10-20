@@ -1,16 +1,11 @@
-package com.example.drawapp
+package com.example.drawapp.savecomponent
 
 import android.app.Service
 import android.content.Intent
-import android.content.Intent.getIntent
 import android.graphics.Bitmap
 import android.os.Binder
 import android.os.IBinder
-import android.os.Parcelable
-import android.widget.Toast
-import com.example.drawapp.koin.BITMAP_KEY
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 

@@ -6,6 +6,7 @@ import android.os.IBinder
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.example.drawapp.base.showIf
+import com.example.drawapp.savecomponent.SaveService
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

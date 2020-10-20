@@ -1,4 +1,4 @@
-package com.example.drawapp
+package com.example.drawapp.savecomponent
 
 import android.content.ContentResolver
 import android.content.ContentValues

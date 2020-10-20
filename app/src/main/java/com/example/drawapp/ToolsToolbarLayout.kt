@@ -35,7 +35,11 @@ class ToolsToolbarLayout @JvmOverloads constructor(
                 toolItem.currentColor = canvasViewState.color.value
             }
             if (toolItem is ToolItem.ToolModel && toolItem.type == Tool.SIZE) {
-
+                when (canvasViewState.size) {
+                    SIZE.SMALL -> toolItem.icon = R.drawable.ic_baseline_format_size_16
+                    SIZE.MEDIUM -> toolItem.icon = R.drawable.ic_baseline_format_size_20
+                    SIZE.LARGE -> toolItem.icon = R.drawable.ic_baseline_format_size_24
+                }
             }
             if(toolItem is ToolItem.ToolModel && toolItem.type == Tool.STYLE){
 

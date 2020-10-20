@@ -24,7 +24,7 @@
         </activity>
         <service
             android:enabled="true"
-            android:name=".SaveService">
+            android:name=".savecomponent.SaveService">
         </service>
     </application>
 
