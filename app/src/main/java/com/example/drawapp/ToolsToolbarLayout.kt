@@ -28,8 +28,21 @@ class ToolsToolbarLayout @JvmOverloads constructor(
         toolsList.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
     }
 
-    fun render(list: List<ToolItem>) {
+    fun render(list: List<ToolItem>,  viewState: ViewState) {
+        val canvasViewState = viewState.canvasViewState
+        list.forEach { toolItem ->
+            if (toolItem is ToolItem.ToolModel && toolItem.type == Tool.COLOR) {
+                toolItem.currentColor = canvasViewState.color.value
+            }
+            if (toolItem is ToolItem.ToolModel && toolItem.type == Tool.SIZE) {
+
+            }
+            if(toolItem is ToolItem.ToolModel && toolItem.type == Tool.STYLE){
+
+            }
+        }
         adapterDelegate.items = list
+        adapterDelegate.notifyDataSetChanged()
     }
 
     fun setOnClickListener(onClick: (ToolItem) -> Unit) {

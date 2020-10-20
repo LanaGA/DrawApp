@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity() {
         toolsLayouts[2].render(viewState.styleList)
 
         tools.showIf(viewState.isToolsVisible)
-        tools.render(viewState.toolsList)
+        tools.render(viewState.toolsList, viewState)
 
 
         drawView.render(viewState.canvasViewState)
